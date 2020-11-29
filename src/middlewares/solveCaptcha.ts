@@ -1,7 +1,6 @@
-import { Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import ac from '@antiadmin/anticaptchaofficial';
 import config from '../config';
-import { Request } from '../controllers/interfaces';
 
 const solveCaptcha = async (req: Request, res: Response, next: NextFunction) => {
   console.log('solving recaptcha...');

@@ -1,8 +1,7 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import puppeteer from 'puppeteer';
 import config from '../config';
 import { CompanyInfo } from './interfaces';
-import { Request } from '../controllers/interfaces';
 
 const log = (text: string) => console.log(text);
 
@@ -57,7 +56,8 @@ const verify = async (req: Request, res: Response) => {
             rcNumber: rowData[0].innerText,
             name: rowData[1].innerText,
             address: rowData[2].innerText,
-            dateOfRegistration: rowData[3].innerText
+            dateOfRegistration: rowData[3].innerText,
+            isRegistrationComplete: Number(rowData[0].innerText) ? true : false
           };
         }
       );
