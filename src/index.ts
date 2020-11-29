@@ -2,7 +2,9 @@ import http from 'http';
 import log from './config/logs';
 import config from './config';
 import express, { Application, Request, Response, NextFunction } from 'express';
-import scrapperRoute from './routes/scrapper';
+import scrapperRouter from './routes/scrapperRouter';
+import versionRouter from './routes/verifyRouter';
+
 const app: Application = express();
 
 const NAMESPACE = 'Server';
@@ -45,7 +47,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 /** App Routes */
-app.use('/api', scrapperRoute);
+app.use('/api/scrap', scrapperRouter);
+app.use('/api/verify', versionRouter);
 
 /** Error handling */
 app.use((_req, res: Response) => {

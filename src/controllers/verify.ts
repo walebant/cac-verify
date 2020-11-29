@@ -6,8 +6,8 @@ import { Request } from '../controllers/interfaces';
 
 const log = (text: string) => console.log(text);
 
-const scrapper = async (req: Request, res: Response) => {
-  const search: any = req.query.search;
+const verify = async (req: Request, res: Response) => {
+  const rcNumber: any = req.params.rcNumber;
 
   try {
     const token = req.token;
@@ -24,10 +24,10 @@ const scrapper = async (req: Request, res: Response) => {
     log('filling search query');
     await page.$eval(
       '#content2 > div > form > div.box-content > div > input.field',
-      (element: any, search: string) => {
-        element.value = search;
+      (element: any, rcNumber: string) => {
+        element.value = rcNumber;
       },
-      search
+      rcNumber
     );
 
     log('setting recaptcha response');
@@ -70,4 +70,4 @@ const scrapper = async (req: Request, res: Response) => {
   }
 };
 
-export default { scrapper };
+export default { verify };
