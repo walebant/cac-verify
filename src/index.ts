@@ -48,7 +48,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 /** App Routes */
 app.use('/api/scrap', scrapperRouter);
-// app.use('/api/verify', versionRouter);
+app.use('/api/verify', versionRouter);
 
 /** Error handling */
 app.use((_req, res: Response) => {
