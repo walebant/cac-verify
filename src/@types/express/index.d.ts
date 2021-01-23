@@ -3,8 +3,6 @@ declare namespace Express {
     token?: string;
     query: {
       search?: string;
-    };
-    params: {
       rcNumber?: string;
     };
   }

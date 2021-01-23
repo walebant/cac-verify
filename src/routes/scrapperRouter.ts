@@ -1,9 +1,9 @@
 import express from 'express';
-import controller from '../controllers/scrapper';
+import scrapperController from '../controllers/scrapper';
 import solveCaptcha from '../middlewares/solveCaptcha';
 
 const router = express.Router();
 
-router.get('/', solveCaptcha, controller.scrapper);
+router.get('/', solveCaptcha, scrapperController);
 
 export = router;

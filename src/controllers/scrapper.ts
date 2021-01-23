@@ -5,13 +5,13 @@ import { CompanyInfo } from './interfaces';
 
 const log = (text: string) => console.log(text);
 
-const scrapper = async (req: Request, res: Response) => {
-  const search: any = req.query.search;
+const scrapperController = async (req: Request, res: Response) => {
+  const search = req.query.search as string;
 
   try {
     const token = req.token;
 
-    log('opening browser');
+    log('opening browser instance');
     const browser = await puppeteer.launch();
 
     log('opening new tab');
@@ -44,7 +44,7 @@ const scrapper = async (req: Request, res: Response) => {
       page.waitForNavigation({ waitUntil: 'networkidle0' })
     ]);
 
-    log('parsing dom content...');
+    log('parsing DOM content...');
     const result: Array<CompanyInfo> = await page.evaluate(() => {
       // slice the tr with index 0 (this is the table header)
       const tableRows: HTMLTableRowElement[] = Array.from(document.querySelectorAll('tr')).slice(1);
@@ -57,7 +57,9 @@ const scrapper = async (req: Request, res: Response) => {
             name: rowData[1].innerText,
             address: rowData[2].innerText,
             dateOfRegistration: rowData[3].innerText,
-            isRegistrationComplete: Number(rowData[0].innerText) ? true : false
+            // if the dateOfRegistration YYYY-MM-DD [10 strings]
+            // is <= 10 then it's a date string else is sentence
+            isRegistrationComplete: rowData[3].innerText.length <= 10
           };
         }
       );
@@ -70,4 +72,4 @@ const scrapper = async (req: Request, res: Response) => {
   }
 };
 
-export default { scrapper };
+export default scrapperController;

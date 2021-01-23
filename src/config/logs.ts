@@ -1,35 +1,18 @@
+import consola from 'consola';
+
 const getTimeStamp = (): string => new Date().toDateString();
 
-const info = (namespace: string, message: string, object?: any) => {
-  if (object) {
-    return console.info(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`, object);
-  }
-
-  return console.info(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`);
+const success = (message): void => {
+  consola.success(`[${getTimeStamp()}] ${message}`);
 };
 
-const warn = (namespace: string, message: string, object?: any) => {
-  if (object) {
-    return console.warn(`[${getTimeStamp()}] [WARN] [${namespace}] ${message}`, object);
-  }
-
-  return console.warn(`[${getTimeStamp()}] [WARN] [${namespace}] ${message}`);
+const info = (message): void => {
+  consola.info(`[${getTimeStamp()}] ${message}`);
 };
 
-const error = (namespace: string, message: string, object?: any) => {
-  if (object) {
-    return console.error(`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`, object);
-  }
-
-  return console.error(`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`);
+const error = (message): void => {
+  consola.error(`[${getTimeStamp()}] ${message}`);
 };
 
-const debug = (namespace: string, message: string, object?: any) => {
-  if (object) {
-    return console.debug(`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`, object);
-  }
 
-  return console.debug(`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`);
-};
-
-export default { info, warn, error, debug };
+export default { success, info, error }

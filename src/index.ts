@@ -1,66 +1,71 @@
 import http from 'http';
 import log from './config/logs';
-import config from './config';
 import express, { Application, Request, Response, NextFunction } from 'express';
 import scrapperRouter from './routes/scrapperRouter';
-import versionRouter from './routes/verifyRouter';
+import verifyRouter from './routes/verifyRouter';
 
 const app: Application = express();
-
-const NAMESPACE = 'Server';
 
 /** Parse the request */
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /** Logging the request */
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req, res, next) => {
   log.info(
-    NAMESPACE,
-    `METHOD - [${req.method}], URL - [${req.url}], IP [${req.socket.remoteAddress}]`
+    `
+      METHOD - [${req.method}] 
+      URL - [${req.url}]
+    `
   );
 
   res.on('finish', () => {
-    log.info(
-      NAMESPACE,
-      `METHOD - [${req.method}], URL - [${req.url}], IP [${req.socket.remoteAddress}], STATUS [${req.statusCode}]`
-    );
+    if (req.method === 'GET') {
+      log.success(
+        `
+          METHOD - [${req.method}]
+          URL - [${req.originalUrl}]
+          STATUS - [${res.statusCode}]
+        `
+      );
+    } else {
+      log.error(
+        `
+          METHOD - [${req.method}]
+          URL - [${req.originalUrl}]
+          STATUS - [${res.statusCode}]
+        `
+      );
+    }
   });
-
-  next();
-});
-
-/** Rules of our API */
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-
-  if (req.method == 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'GET');
-    return res.status(200).json({});
-  }
 
   next();
 });
 
 /** App Routes */
 app.use('/api/scrap', scrapperRouter);
-app.use('/api/verify', versionRouter);
+app.use('/api/verify', verifyRouter);
 
 /** Error handling */
-app.use((_req, res: Response) => {
-  const error = new Error('Not found');
+app.use((req, res) => {
+  const error = new Error('Error completing request.');
 
-  res.status(404).json({
-    message: error.message
+  if (req.method !== 'GET') {
+    return res.status(405).json({
+      message: 'Method not allowed',
+      method: req.method,
+      status: 405,
+    });
+  }
+  return res.status(500).json({
+    message: error.message,
   });
 });
 
+// server
 const httpServer = http.createServer(app);
 
-httpServer.listen(config.server.port, () =>
-  log.info(NAMESPACE, `Server is running at http://${config.server.hostname}:${config.server.port}`)
+const port = process.env.PORT || 5000;
+httpServer.listen(port, () =>
+  log.success(`Server is running at http://localhost:${port}`)
 );
