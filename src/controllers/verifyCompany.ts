@@ -67,10 +67,11 @@ const verifyCompany = async (rcNumber: string): Promise<ReturnValue> => {
 
     isLoading = false;
 
-    if (company) return {
-      data: company,
-      isLoading
-    };
+    if (company)
+      return {
+        data: company,
+        isLoading
+      };
 
     return {
       isLoading,

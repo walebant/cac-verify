@@ -20,7 +20,6 @@
   "homepage": "https://github.com/walebant/cac-verify#readme",
   "dependencies": {
     "@antiadmin/anticaptchaofficial": "^1.0.10",
-    "axios": "^0.20.0",
     "puppeteer": "^5.5.0"
   },
   "devDependencies": {
