@@ -13,7 +13,6 @@ export const initAntiCaptcha = async (ANTI_ADMIN_API_KEY: string): Promise<strin
 };
 
 export const solveCaptcha = async (): Promise<string> => {
-  console.log('solving recaptcha...');
   const token: string = await ac.solveRecaptchaV2Proxyless(
     config.PAGE_URL,
     config.CAPTCHA_DATA_SITE_KEY
