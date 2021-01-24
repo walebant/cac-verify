@@ -11,8 +11,6 @@
 - Check if a company is verified by inputting it's RC number.
 <!-- [END usecases] -->
 
-Give it a spin: https://try-puppeteer.appspot.com/
-
 <!-- [START getstarted] -->
 
 ## Getting Started
