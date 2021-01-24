@@ -7,7 +7,7 @@
 
 ###### What can I do?
 
-- Search for a list of companies which a search query
+- Search for a list of companies with a search query
 - Check if a company is verified by inputting it's RC number.
 <!-- [END usecases] -->
 
