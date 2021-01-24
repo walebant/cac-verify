@@ -63,7 +63,6 @@ const verifyCompany = async (rcNumber: string): Promise<ReturnValue> => {
 
     const company: CompanyInfo | undefined = result.find((data) => data.rcNumber === rcNumber);
 
-
     if (company)
       return {
         data: company
