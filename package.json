@@ -1,6 +1,6 @@
 {
   "name": "cac-verify",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Search and Verify if a company is registered in Nigeria",
   "main": "build/index.js",
   "scripts": {
