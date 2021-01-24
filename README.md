@@ -39,7 +39,7 @@ initAntiCaptcha('INSERT_YOUR_ANTI_CAPTCHA_API_KEY_HERE')
  * search for a company
  */
 
-const { data, isLoading, error } = await scrapCompanies(query: string)
+const { data, error } = await scrapCompanies(query: string)
 
 // response onSuccess
   {
@@ -66,7 +66,7 @@ const { data, isLoading, error } = await scrapCompanies(query: string)
 /**
  * check if a company is verified
  */
-const { data, isLoading, error } = await verifyCompany(rcNumber: string)
+const { data, error } = await verifyCompany(rcNumber: string)
 
 // response onSuccess
   {
