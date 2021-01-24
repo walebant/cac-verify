@@ -1,6 +1,6 @@
-# CAC_VERIFY
+# CAC VERIFY
 
-> CAC_VERIFY is a JavaScript package that enables developers search and verify if a company is
+> CAC VERIFY is a Nodejs package that enables developers search and verify if a company is
 > registered in Nigeria under the [Corporate Affairs Commission](https://www.cac.gov.ng).
 
 <!-- [START usecases] -->
