@@ -5,8 +5,11 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node build/index.js",
-    "build": "rm -rf build/ && prettier --write src/ && tsc -p .",
-    "prepare": "npm run build"
+    "build": "tsc -p .",
+    "format": "prettier --write src/",
+    "prepare": "npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -31,5 +34,8 @@
     "nodejs",
     "typescript",
     "javascript"
+  ],
+  "files": [
+    "build/**/*"
   ]
 }
