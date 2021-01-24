@@ -1,35 +1,33 @@
-import { Response, Request } from 'express';
 import puppeteer from 'puppeteer';
-import config from '../config';
+import { config } from '../config';
 import { CompanyInfo } from './interfaces';
+import { solveCaptcha } from '../solveCaptcha';
 
-const log = (text: string) => console.log(text);
+interface ReturnValue {
+  data?: Array<CompanyInfo>;
+  error?: string;
+  isLoading: boolean;
+}
 
-const scrapperController = async (req: Request, res: Response) => {
-  const search = req.query.search as string;
-
+const scrapCompanies = async (query: string): Promise<ReturnValue> => {
+  let isLoading = true;
   try {
-    const token = req.token;
+    const token = await solveCaptcha();
 
-    log('opening browser instance');
     const browser = await puppeteer.launch();
-
-    log('opening new tab');
     const page = await browser.newPage();
+    await page.goto(config.PAGE_URL, { waitUntil: 'networkidle0' });
 
-    log('navigating to target page');
-    await page.goto(config.pageUrl, { waitUntil: 'networkidle0' });
-
-    log('filling search query');
+    // filling search query
     await page.$eval(
       '#content2 > div > form > div.box-content > div > input.field',
       (element: any, search: string) => {
         element.value = search;
       },
-      search
+      query
     );
 
-    log('setting recaptcha response');
+    // set recaptcha response
     await page.$eval(
       '#g-recaptcha-response',
       (element: any, token: string | undefined) => {
@@ -38,13 +36,13 @@ const scrapperController = async (req: Request, res: Response) => {
       token
     );
 
-    log('submitting form...');
+    // submit form
     await Promise.all([
       page.click('#content2 > div > form > div.box-content > div > input.button2'),
       page.waitForNavigation({ waitUntil: 'networkidle0' })
     ]);
 
-    log('parsing DOM content...');
+    // parsing DOM content
     const result: Array<CompanyInfo> = await page.evaluate(() => {
       // slice the tr with index 0 (this is the table header)
       const tableRows: HTMLTableRowElement[] = Array.from(document.querySelectorAll('tr')).slice(1);
@@ -65,11 +63,11 @@ const scrapperController = async (req: Request, res: Response) => {
       );
     });
 
-    return res.status(200).send(result);
+    return { data: result, isLoading };
   } catch (error) {
-    log(error);
-    return res.status(500).send(error);
+    isLoading = false;
+    return { error, isLoading };
   }
 };
 
-export default scrapperController;
+export default scrapCompanies;
