@@ -7,11 +7,9 @@ interface ReturnValue {
   data?: CompanyInfo;
   error?: string;
   message?: string;
-  isLoading: boolean;
 }
 
 const verifyCompany = async (rcNumber: string): Promise<ReturnValue> => {
-  let isLoading = true;
   try {
     const token = await solveCaptcha();
 
@@ -65,22 +63,17 @@ const verifyCompany = async (rcNumber: string): Promise<ReturnValue> => {
 
     const company: CompanyInfo | undefined = result.find((data) => data.rcNumber === rcNumber);
 
-    isLoading = false;
 
     if (company)
       return {
-        data: company,
-        isLoading
+        data: company
       };
 
     return {
-      isLoading,
       message: 'Invalid Registered Company Number'
     };
   } catch (error) {
-    isLoading = false;
     return {
-      isLoading,
       error
     };
   }

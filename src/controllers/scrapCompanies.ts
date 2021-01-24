@@ -6,11 +6,9 @@ import { solveCaptcha } from '../solveCaptcha';
 interface ReturnValue {
   data?: Array<CompanyInfo>;
   error?: string;
-  isLoading: boolean;
 }
 
 const scrapCompanies = async (query: string): Promise<ReturnValue> => {
-  let isLoading = true;
   try {
     const token = await solveCaptcha();
 
@@ -63,10 +61,9 @@ const scrapCompanies = async (query: string): Promise<ReturnValue> => {
       );
     });
 
-    return { data: result, isLoading };
+    return { data: result };
   } catch (error) {
-    isLoading = false;
-    return { error, isLoading };
+    return { error };
   }
 };
 
