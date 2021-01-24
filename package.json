@@ -2,10 +2,11 @@
   "name": "cac-verify",
   "version": "1.0.0",
   "description": "Verify if a company if registered in Nigeria",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "build": "rm -rf build/ && prettier --write src/ && tsc -p ."
+    "start": "node build/index.js",
+    "build": "rm -rf build/ && prettier --write src/ && tsc -p .",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,10 @@
     "@types/puppeteer": "^5.4.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
-  }
+  },
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "javascript"
+  ]
 }
