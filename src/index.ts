@@ -1,4 +1,3 @@
-import scrapCompanies from './controllers/scrapCompanies';
-import verifyCompany from './controllers/verifyCompany';
+import searchCompany from './controllers/searchCompany';
 
-export { scrapCompanies, verifyCompany };
+export { searchCompany };
