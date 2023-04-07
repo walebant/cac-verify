@@ -24,32 +24,35 @@ npm i cac-verify
 # or "yarn add cac-verify"
 ```
 
-Note: cac-verify, uses [Anti-Captcha](http://getcaptchasolution.com/swwch1tlly) to solve captcha on
-the [CAC](https://search.cac.gov.ng/home) website. So headover
-[HERE](http://getcaptchasolution.com/swwch1tlly) to register and receive your API_KEY
-
 ### Usage
 
 ```js
-import { initAntiCaptcha, scrapCompanies, verifyCompany } from 'cac-verify';
-
-initAntiCaptcha('INSERT_YOUR_ANTI_CAPTCHA_API_KEY_HERE')
+import { searchCompanies } from 'cac-verify';
 
 /**
  * search for a company
  */
 
-const { data, error } = await scrapCompanies(query: string)
+const { success, data, error } = await searchCompanies(query: string)
 
 // response onSuccess
   {
+    success: true,
     data: [
       {
-        rcNumber: string;
-        name: string;
+        email: string | null;
+        active: boolean;
+        registrationApproved: boolean;
+        natureOfBusinessName: string | null;
+        approvedName: string;
+        rcNumber: string | null;
+        registrationDate: string | null;
+        businessCommencementDate: string | null;
+        classification: string;
+        city: string;
+        lga: string;
+        state: string;
         address: string;
-        dateOfRegistration: string;
-        isRegistrationComplete: boolean;
       }
     ],
     error: null
@@ -57,6 +60,7 @@ const { data, error } = await scrapCompanies(query: string)
 
 // response onError
   {
+    success: false,
     data: null,
     error: string;
   }
