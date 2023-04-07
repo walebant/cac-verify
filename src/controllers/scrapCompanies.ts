@@ -1,7 +1,6 @@
 import puppeteer from 'puppeteer';
 import { config } from '../config';
 import { CompanyInfo } from './interfaces';
-import { solveCaptcha } from '../solveCaptcha';
 
 interface ReturnValue {
   data?: Array<CompanyInfo>;
@@ -10,7 +9,6 @@ interface ReturnValue {
 
 const scrapCompanies = async (query: string): Promise<ReturnValue> => {
   try {
-    const token = await solveCaptcha();
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -25,14 +23,6 @@ const scrapCompanies = async (query: string): Promise<ReturnValue> => {
       query
     );
 
-    // set recaptcha response
-    await page.$eval(
-      '#g-recaptcha-response',
-      (element: any, token: string | undefined) => {
-        element.value = token;
-      },
-      token
-    );
 
     // submit form
     await Promise.all([
