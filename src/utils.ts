@@ -1,21 +1,37 @@
-import { CompanyObject } from './controllers/types'
+interface CompanyInfo {
+  email: string | null;
+  active: boolean;
+  approvedName: string | null;
+  rcNumber: string | null;
+  city: string | null;
+  lga: string | null;
+  classification: string | null;
+  registrationApproved: boolean;
+  registrationDate: string | null;
+  headOfficeAddress: string | null;
+  natureOfBusinessName: string | null;
+  companyTypeName: string | null;
+  address: string | null;
+  state: string | null;
+}
 
-export const config = {
-  PAGE_URL: 'https://postapp.cac.gov.ng/postapp/api/front-office/search/company-business-name-it'
-};
+const serializer = (list: any): CompanyInfo => {
+  return list.map((item: any) => ({
+    email: item.email?.trim() ?? null,
+    active: item.active,
+    approvedName: item.approvedName?.trim() ?? null,
+    rcNumber: item.rcNumber?.trim() ?? null,
+    city: item.city?.trim() ?? null,
+    lga: item.lga?.trim() ?? null,
+    classification: item.classification?.trim() ?? null,
+    registrationApproved: item.registrationApproved,
+    registrationDate: item.registrationDate?.trim() ?? null,
+    headOfficeAddress: item.headOfficeAddress?.trim() ?? null,
+    natureOfBusinessName: item.natureOfBusinessName?.trim() ?? null,
+    companyTypeName: item.companyTypeName?.trim() ?? null,
+    address: item.address?.trim() ?? null,
+    state: item.state?.trim() ?? null,
+  }))
+}
 
-export const serialize = (arg): CompanyObject => ({
-  email: arg.email,
-  active: arg.active,
-  registrationApproved: arg.registrationApproved,
-  natureOfBusinessName: arg.natureOfBusinessName,
-  approvedName: arg.approvedName,
-  rcNumber: arg.rcNumber,
-  classification: arg.classification,
-  registrationDate: arg.registrationDate,
-  businessCommencementDate: arg.businessCommencementDate,
-  city: arg.city,
-  lga: arg.lga,
-  state: arg.state,
-  address: arg.address,
-});
+export default serializer

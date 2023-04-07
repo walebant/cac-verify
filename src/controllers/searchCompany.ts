@@ -1,39 +1,44 @@
-import { config, serialize } from '../utils';
-import { CompanyObject } from './types';
+import { Request, Response } from 'express';
+import serializer from '../utils'
 
-interface ReturnValue {
-  success: boolean;
-  data?: Array<CompanyObject>;
-  error?: string;
+interface CompanyObject {
+  email: string | null;
+  active: boolean;
+  approvedName: string | null;
+  rcNumber: string | null;
+  city: string | null;
+  lga: string | null;
+  classification: string | null;
+  registrationApproved: boolean;
+  registrationDate: string | null;
+  headOfficeAddress: string | null;
+  natureOfBusinessName: string | null;
+  companyTypeName: string | null;
+  address: string | null;
+  state: string | null;
 }
 
-const searchCompany = async (query: string): Promise<ReturnValue> => {
-  const body = {
-    searchTerm: query,
-  };
+interface SearchResult {
+  status: string;
+  success: boolean;
+  errorCode: number;
+  data: CompanyObject[];
+  message: string;
+  timestamp: string
+}
 
-  try {
-    const data = await fetch(config.PAGE_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    const response = await data.json();
+export default async function (req: Request, res: Response): Promise<void> {
 
-    const companies = response.data.forEach(obj => serialize(obj));
+  const url =
+    'https://postapp.cac.gov.ng/postapp/api/front-office/search/company-business-name-it';
 
-    return {
-      data: companies,
-      success: response.success,
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: 'An error occurred'
-    };
-  }
-};
-
-export default searchCompany;
+  const fetchReq = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ searchTerm: req.query.search }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const response: Promise<SearchResult> = await fetchReq.json();
+  res.send(response);
+}
