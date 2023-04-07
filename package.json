@@ -22,12 +22,13 @@
   },
   "homepage": "https://github.com/walebant/cac-verify#readme",
   "dependencies": {
-    "puppeteer": "^5.5.0"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   },
   "devDependencies": {
-    "@types/puppeteer": "^5.4.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "typescript": "^5.0.3"
   },
   "keywords": [
     "nodejs",
