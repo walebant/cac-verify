@@ -4,12 +4,13 @@
   "description": "Search and Verify if a company is registered in Nigeria",
   "main": "build/index.js",
   "scripts": {
-    "start": "node build/index.js",
-    "build": "tsc -p .",
     "format": "prettier --write src/",
     "prepare": "npm run build",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "build": "npx tsc",
+    "start": "node build/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\""
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.11",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22",
     "typescript": "^5.0.3"
   },
   "keywords": [
